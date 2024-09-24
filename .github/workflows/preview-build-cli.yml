@@ -1,0 +1,55 @@
+name: Build a preview version for MarkBook CLI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        targets:
+
+          - os: ubuntu-latest
+            name: linux-x64
+            task: ':markbook-cli:linkReleaseExecutableLinuxX64'
+            bin: 'markbook-cli/build/bin/linuxX64/releaseExecutable/*'
+
+          - os: macos-latest
+            name: macos-arm64
+            task: ':markbook-cli:linkReleaseExecutableMacosArm64'
+            bin: 'markbook-cli/build/bin/macosArm64/releaseExecutable/*'
+
+          - os: windows-latest
+            name: windows-x64
+            task: ':markbook-cli:linkReleaseExecutableMingwX64'
+            bin: 'markbook-cli/build/bin/mingwX64/releaseExecutable/*'
+
+    runs-on: ${{ matrix.targets.os }}
+    steps:
+
+      - name: Checkout master
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'zulu'
+
+      - name: Grant gradlew permission
+        if: runner.os != 'Windows'
+        run: chmod +x ./gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew ${{ matrix.targets.task }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: markbook-cli-${{ matrix.targets.name }}-${{ github.sha }}
+          path: ${{ matrix.targets.bin }}
