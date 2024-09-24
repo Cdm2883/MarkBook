@@ -14,3 +14,7 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
+
+include(":markbook-core")
+include(":markbook-cli")
+include(":markbook-viewer")

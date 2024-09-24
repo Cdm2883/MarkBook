@@ -1,0 +1,14 @@
+[versions]
+kotlin = "2.0.20"
+kotlinx-serialization = "1.9.23"
+
+jetbrains-markdown = "0.7.3"
+benwoodworth-knbt = "0.11.5"
+
+[libraries]
+jetbrains-markdown = { module = "org.jetbrains:markdown", version.ref = "jetbrains-markdown" }
+benwoodworth-knbt = { module = "net.benwoodworth.knbt:knbt", version.ref = "benwoodworth-knbt" }
+
+[plugins]
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinx-serialization" }
