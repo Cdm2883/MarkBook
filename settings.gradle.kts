@@ -10,6 +10,7 @@ pluginManagement {
 dependencyResolutionManagement {
     @Suppress("UnstableApiUsage")
     repositories {
+        maven("https://mirrors.huaweicloud.com/repository/maven/")
         mavenCentral()
     }
 }
